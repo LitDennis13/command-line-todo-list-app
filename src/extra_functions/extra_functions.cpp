@@ -1,4 +1,6 @@
 #include "extra_functions.h"
+#include <iostream>
+#include <cstdlib>
 
 void lowerCaseCharacter(char* inChar) {
     int inCharAscii = (int)(*inChar);
@@ -6,3 +8,16 @@ void lowerCaseCharacter(char* inChar) {
         *inChar = (char)(inCharAscii+32);
     }
 }
+
+void clearFunction() {
+    // using system is not good for security however for this project will be fine
+    // FYI to use on windows must change the command to cls
+    system("clear");
+    system("clear");
+
+    // more secur way of clearing, but doesnt remove text from before the command is called like the above
+    // std::cout << "\033[2J\033[H";
+    // std::cout << "\033[2J\033[H";
+}
+
+

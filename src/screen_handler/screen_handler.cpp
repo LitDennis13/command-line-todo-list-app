@@ -1,0 +1,38 @@
+#include "screen_handler.h"
+#include <iostream>
+#include <limits>
+#include "../extra_functions/extra_functions.h"
+#include "../todo_handler/todo_handler.h"
+
+void pressEnterToContinue() {
+    char temp;
+    std::cout << "Press enter to continue";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    std::cin.get(temp);
+}
+
+void optionScreen(char *userInput) {
+    std::cout << "Enter the assigned letter for an action and type H for help" << std::endl;
+    std::cout << "H - Help" << std::endl;
+    std::cout << "L - List Todo's" << std::endl;
+    std::cout << "A - Add Todo" << std::endl;
+    std::cout << "E - Edit Todo" << std::endl;
+    std::cout << "D - Delete Todo" << std::endl;
+    std::cout << "Q - Quit program" << std::endl;
+    std::cout << "Enter: ";
+        
+    std::cin >> *userInput;
+    lowerCaseCharacter(userInput);
+}
+
+void listTodosScreen(std::string **todos, int numberOfTodos) {
+    listTodos(todos, numberOfTodos);
+    
+    pressEnterToContinue();
+}
+
+
+void notAnOptionScreen(char userInput) {
+    std::cout << userInput << " is not an option" << std::endl;
+    pressEnterToContinue();
+}

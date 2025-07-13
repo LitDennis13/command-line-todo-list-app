@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <cstdlib>
 #include "extra_functions/extra_functions.h"
-#include "todo_loader/todo_loader.h"
+#include "todo_handler/todo_handler.h"
+#include "screen_handler/screen_handler.h"
 
 int main() {
     std::cout << "---Command Line Todo List App---" << std::endl;
@@ -12,34 +12,43 @@ int main() {
     if (!saveFile) std::cout << "Could not open the save file!!" << std::endl;
 
     std::string **todos;
-    todos = loadTodos(saveFile);
+    int numberOfTodos;
+    loadTodos(saveFile, &todos, &numberOfTodos);
     
-    bool run = false;
+
+    bool run = true;
 
     char userInput;
     
     while (run) {
-        system("clear");
-        std::cout << "Enter the assigned letter for an action and type H for help" << std::endl;
-        std::cout << "H - Help" << std::endl;
-        std::cout << "C - Clear Console" << std::endl;
-        std::cout << "L - List Todo's" << std::endl;
-        std::cout << "A - Add Todo" << std::endl;
-        std::cout << "MC - Mark Todo completed" << std::endl;
-        std::cout << "UMC - Un Mark Todo completed" << std::endl;
-        std::cout << "D - Delete Todo" << std::endl;
-        std::cout << "Q - Quit program" << std::endl;
-        std::cout << "Enter: ";
-        std::cin >> userInput;
-        lowerCaseCharacter(&userInput);
+        clearFunction();
+        optionScreen(&userInput);
 
-        if (userInput == 'q') {
-            run = 0;
+        switch (userInput) {
+            case ('l'): {
+                clearFunction();
+                listTodosScreen(todos, numberOfTodos);
+                break;
+            }
+
+            case ('a'): {
+                /* Create Add tOdO screen */
+                break;
+            }
+
+
+            case ('q'): {
+                run = 0;
+                break;
+            }
+
+            default: {
+                clearFunction();
+                notAnOptionScreen(userInput);
+                break;
+            } 
         }
     }
-    
-
-    
     
     return 0;
 }

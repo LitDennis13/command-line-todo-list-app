@@ -4,7 +4,8 @@ project(output VERSION 1.0 LANGUAGES C CXX)
 
 set(SOURCE_FILES
     "src/extra_functions/extra_functions.cpp"
-    "src/todo_loader/todo_loader.cpp"
+    "src/screen_handler/screen_handler.cpp"
+    "src/todo_handler/todo_handler.cpp"
     "src/main.cpp"
 )
 
