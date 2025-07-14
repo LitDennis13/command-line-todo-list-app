@@ -21,7 +21,7 @@ void optionScreen(char *userInput) {
     std::cout << "Q - Quit program" << std::endl;
     std::cout << "Enter: ";
         
-    std::cin >> *userInput;
+    std::cin.get(*userInput);
     lowerCaseCharacter(userInput);
 }
 
