@@ -4,10 +4,10 @@
 #include "../extra_functions/extra_functions.h"
 #include "../todo_handler/todo_handler.h"
 
-void pressEnterToContinue() {
+void pressEnterToContinue(bool ignore) {
     char temp;
     std::cout << "Press enter to continue";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+    if (ignore) std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
     std::cin.get(temp);
 }
 
@@ -26,13 +26,41 @@ void optionScreen(char *userInput) {
 }
 
 void listTodosScreen(std::string **todos, int numberOfTodos) {
-    listTodos(todos, numberOfTodos);
+    listTodos(todos, numberOfTodos, false);
     
-    pressEnterToContinue();
+    pressEnterToContinue(true);
 }
 
+void addTodoScreen(std::string ***todos, int *numberOfTodos) {
+    std::string name = "";
+    std::string desc = "";
 
-void notAnOptionScreen(char userInput) {
-    std::cout << userInput << " is not an option" << std::endl;
-    pressEnterToContinue();
+    bool attempedToGetName = false;
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    do {
+        if ((name == "" || checkOnlyContainsWhiteSpace(name)) && attempedToGetName) {
+            clearFunction();
+            std::cout << "Name cannot be empty" << std::endl;
+            pressEnterToContinue(false);
+            clearFunction();
+        }
+        std::cout << "Todo Name: ";
+        getline(std::cin, name);
+
+        attempedToGetName = true;
+    } while (name == "" || checkOnlyContainsWhiteSpace(name));
+
+
+    std::cout << "Todo Description: ";
+    getline(std::cin, desc);
+
+    std::cout << std::endl;
+
+    upperCaseString(&name);
+
+    addTodo(todos, numberOfTodos, name, desc);
+
+    pressEnterToContinue(false);
 }

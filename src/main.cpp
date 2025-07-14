@@ -14,10 +14,8 @@ int main() {
     std::string **todos;
     int numberOfTodos;
     loadTodos(saveFile, &todos, &numberOfTodos);
-    
 
     bool run = true;
-
     char userInput;
     
     while (run) {
@@ -32,7 +30,8 @@ int main() {
             }
 
             case ('a'): {
-                /* Create Add tOdO screen */
+                clearFunction();
+                addTodoScreen(&todos, &numberOfTodos);
                 break;
             }
 
@@ -44,7 +43,6 @@ int main() {
 
             default: {
                 clearFunction();
-                notAnOptionScreen(userInput);
                 break;
             } 
         }

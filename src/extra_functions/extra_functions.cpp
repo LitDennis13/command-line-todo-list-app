@@ -9,6 +9,25 @@ void lowerCaseCharacter(char* inChar) {
     }
 }
 
+void upperCaseString(std::string *str) {
+    for (int i = 0; i < str->length(); i++) {
+        int c = (int)((char)(*str)[i]);
+        if (c >= 97 && c <= 122) {
+            c -= 32;
+        }
+        (*str)[i] = (char)c;
+    }
+}
+
+bool checkOnlyContainsWhiteSpace(std::string str) {
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] != ' ' && str[i] != '\n') {
+            return false;
+        }
+    }
+    return true;
+}
+
 void clearFunction() {
     // using system is not good for security however for this project will be fine
     // FYI to use on windows must change the command to cls
