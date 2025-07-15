@@ -35,6 +35,12 @@ int main() {
                 break;
             }
 
+            case ('e'): {
+                /* Add Edit Todo Screen */
+                clearFunction();
+                editTodoScreen(todos, numberOfTodos);
+                break;
+            }
 
             case ('q'): {
                 run = 0;

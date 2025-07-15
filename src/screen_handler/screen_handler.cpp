@@ -64,3 +64,41 @@ void addTodoScreen(std::string ***todos, int *numberOfTodos) {
 
     pressEnterToContinue(false);
 }
+
+void editTodoScreen(std::string **todos, int numberOfTodos) {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    std::string inputString;
+    int todoID;
+    bool gotTodoID = false;
+
+    while (!gotTodoID) {
+        listTodos(todos, numberOfTodos, true);
+
+        std::cout << "Choose a Todo by ID to edit: ";
+        getline(std::cin, inputString);
+
+        if (checkIfStringIsANumber(inputString)) todoID = stoi(inputString);
+        else todoID = -1;
+
+        
+
+        if (todoID < 0 || todoID >= numberOfTodos) {
+            clearFunction();
+            std::cout << "Todo ID must be one of the ID's listed above and a number" << std::endl;
+            pressEnterToContinue(false);
+            clearFunction();
+        }
+        else {
+            gotTodoID = true;
+            std::cin.clear();
+            break;
+        }
+    }
+    clearFunction();
+
+    std::cout << "Selected ID is " << todoID << std::endl;
+    listSelectedTodoWithID(todos, todoID);
+
+    pressEnterToContinue(false);
+}

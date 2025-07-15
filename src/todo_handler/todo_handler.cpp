@@ -49,6 +49,23 @@ void listTodos(std::string **todos, int numberOfTodos, bool withIDs) {
     }
 }
 
+void listSelectedTodoWithID(std::string **todos, int todoID) {
+    std::cout << todos[todoID][0] << std::endl;
+    if (todos[todoID][1] != "" && !checkOnlyContainsWhiteSpace(todos[todoID][1])) {
+        std::cout << "    " << todos[todoID][1] << std::endl;
+    }
+
+    std::cout << "    status: ";
+    if (todos[todoID][2] == "1") std::cout << "Completed" << std::endl;
+    else std::cout << "Not Completed" << std::endl;
+
+    
+    std::cout << "    ID: " << todoID << std::endl;
+    
+    
+    std::cout << std::endl << std::endl;
+}
+
 void addTodo(std::string ***saveSpot, int *numberOfTodos, std::string todoName, std::string todoDesc) {
     *numberOfTodos += 1;
     

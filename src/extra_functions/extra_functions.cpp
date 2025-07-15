@@ -28,6 +28,19 @@ bool checkOnlyContainsWhiteSpace(std::string str) {
     return true;
 }
 
+bool checkIfStringIsANumber(std::string str) { // only works with positive numbers which is fine
+    if (str.length() == 0) return false;
+    
+    for (int i = 0; i < str.length(); i++) {
+        int c = (int)str[i];
+        if (c < 48 || c > 57) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void clearFunction() {
     // using system is not good for security however for this project will be fine
     // FYI to use on windows must change the command to cls
