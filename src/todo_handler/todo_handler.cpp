@@ -4,7 +4,26 @@
 #include <iostream>
 #include <fstream>
 
-void loadTodos(std::fstream &inFile, std::string ***saveSpot, int *numberOfTodos) {
+void loadTodos(std::string ***saveSpot, int *numberOfTodos) {
+    std::ifstream inFile("save/CLTLASave.txt");
+
+    if (!inFile) {
+        std::filesystem::create_directories("./save"); 
+        std::ofstream createFile("save/CLTLASave.txt");
+        createFile.close();
+        inFile.open("save/CLTLASave.txt");
+    }
+    else {
+        std::ifstream tempOpen("save/CLTLASave.txt");
+        std::string temp = "";
+        tempOpen >> temp;
+
+        if (temp == "") {
+            return;
+        }
+        tempOpen.close();
+    }    
+
     inFile >> *numberOfTodos;
 
     std::string **returnTodos = new std::string*[*numberOfTodos];
@@ -85,7 +104,8 @@ void addTodo(std::string ***saveSpot, int *numberOfTodos, std::string todoName, 
     newSaveSpot[*numberOfTodos - 1][1] = todoDesc;
     newSaveSpot[*numberOfTodos - 1][2] = "0";
 
-    delete [] *saveSpot;
+
+    if (*saveSpot != nullptr) delete [] *saveSpot;
 
     *saveSpot = newSaveSpot;
 }
@@ -110,4 +130,19 @@ void deleteTodo(std::string ***saveSpot, int *numberOfTodos, int todoID) {
 
     *saveSpot = newSaveSpot;
     *numberOfTodos = *numberOfTodos - 1;
+}
+
+void saveTodos(std::string **todos, int numberOfTodos) {
+    std::remove("save/CLTLASave.txt");
+
+    std::ofstream outFile("save/CLTLASave.txt");
+
+    outFile << numberOfTodos << std::endl;
+
+    for (int i = 0; i < numberOfTodos; i++) {
+        outFile << todos[i][0] << std::endl;
+        outFile << todos[i][1] << std::endl;
+        outFile << todos[i][2] << std::endl;
+        outFile << std::endl;
+    }
 }

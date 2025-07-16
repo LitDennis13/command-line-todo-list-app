@@ -7,13 +7,9 @@
 int main() {
     std::cout << "---Command Line Todo List App---" << std::endl;
     
-    std::fstream saveFile("save/CLTLASave.txt");
-
-    if (!saveFile) std::cout << "Could not open the save file!!" << std::endl;
-
-    std::string **todos;
-    int numberOfTodos;
-    loadTodos(saveFile, &todos, &numberOfTodos);
+    std::string **todos = nullptr;
+    int numberOfTodos = 0;
+    loadTodos(&todos, &numberOfTodos);
 
     bool run = true;
     char userInput;
@@ -58,6 +54,6 @@ int main() {
             } 
         }
     }
-    
+
     return 0;
 }

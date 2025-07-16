@@ -66,6 +66,7 @@ void addTodoScreen(std::string ***todos, int *numberOfTodos) {
     upperCaseString(&name);
 
     addTodo(todos, numberOfTodos, name, desc);
+    saveTodos(*todos, *numberOfTodos);
 
     pressEnterToContinue(false);
 }
@@ -166,17 +167,21 @@ void editTodoScreen(std::string **todos, int numberOfTodos) {
             case ('n') : {
                 clearFunction();
                 editTodoNameScreen(todos, todoID);
+                saveTodos(todos, numberOfTodos);
                 break;
             }
             case ('d') : {
                 clearFunction();
                 editTodoDescScreen(todos, todoID);
+                saveTodos(todos, numberOfTodos);
+
                 break;
             }
             case ('c') : {
                 clearFunction();
                 if (todos[todoID][2] == "1") todos[todoID][2] = "0";
                 else if (todos[todoID][2] == "0") todos[todoID][2] = "1";
+                saveTodos(todos, numberOfTodos);
                 break;
             }
             case ('q') : {
@@ -228,6 +233,7 @@ void deleteTodoScreen(std::string ***todos, int *numberOfTodos) {
     listSelectedTodoWithID(*todos, todoID);
 
     deleteTodo(todos, numberOfTodos, todoID);
+    saveTodos(*todos, *numberOfTodos);
     
     std::cout << "THE TODO ABOVE HAS BEEN DELETED" << std::endl;
     std::cout << std::endl;
