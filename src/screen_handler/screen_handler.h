@@ -9,3 +9,5 @@ void listTodosScreen(std::string **todos, int numberOfTodos);
 void addTodoScreen(std::string ***todos, int *numberOfTodos);
 
 void editTodoScreen(std::string **todos, int numberOfTodos);
+
+void deleteTodoScreen(std::string ***todos, int *numberOfTodos);

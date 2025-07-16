@@ -89,3 +89,25 @@ void addTodo(std::string ***saveSpot, int *numberOfTodos, std::string todoName, 
 
     *saveSpot = newSaveSpot;
 }
+
+void deleteTodo(std::string ***saveSpot, int *numberOfTodos, int todoID) {
+    std::string **newSaveSpot = new std::string*[*numberOfTodos - 1];
+
+    int realIndex = 0;
+
+    for (int i = 0; i < *numberOfTodos; i++) {
+        if (i != todoID) {
+            newSaveSpot[realIndex] = new std::string[3];
+            newSaveSpot[realIndex][0] = (*saveSpot)[i][0];
+            newSaveSpot[realIndex][1] = (*saveSpot)[i][1];
+            newSaveSpot[realIndex][2] = (*saveSpot)[i][2];
+            realIndex++;
+        }
+        delete [] (*saveSpot)[i];
+    }
+
+    delete [] *saveSpot;
+
+    *saveSpot = newSaveSpot;
+    *numberOfTodos = *numberOfTodos - 1;
+}

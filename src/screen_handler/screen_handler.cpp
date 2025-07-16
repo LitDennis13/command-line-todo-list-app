@@ -13,7 +13,6 @@ void pressEnterToContinue(bool ignore) {
 
 void optionScreen(char *userInput) {
     std::cout << "Enter the assigned letter for an action and type H for help" << std::endl;
-    std::cout << "H - Help" << std::endl;
     std::cout << "L - List Todo's" << std::endl;
     std::cout << "A - Add Todo" << std::endl;
     std::cout << "E - Edit Todo" << std::endl;
@@ -26,6 +25,11 @@ void optionScreen(char *userInput) {
 }
 
 void listTodosScreen(std::string **todos, int numberOfTodos) {
+    if (numberOfTodos == 0) {
+        std::cout << "There are no todos to list" << std::endl;
+        pressEnterToContinue(true);
+        return;
+    }
     listTodos(todos, numberOfTodos, false);
     
     pressEnterToContinue(true);
@@ -107,6 +111,11 @@ void editTodoDescScreen(std::string **todos, int todoID) {
 }
 
 void editTodoScreen(std::string **todos, int numberOfTodos) {
+    if (numberOfTodos == 0) {
+        std::cout << "There are no todos to edit" << std::endl;
+        pressEnterToContinue(true);
+        return;
+    }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
     std::string inputString;
@@ -121,8 +130,6 @@ void editTodoScreen(std::string **todos, int numberOfTodos) {
 
         if (checkIfStringIsANumber(inputString)) todoID = stoi(inputString);
         else todoID = -1;
-
-        
 
         if (todoID < 0 || todoID >= numberOfTodos) {
             clearFunction();
@@ -181,4 +188,49 @@ void editTodoScreen(std::string **todos, int numberOfTodos) {
             }
         }
     }
+}
+
+void deleteTodoScreen(std::string ***todos, int *numberOfTodos) {
+    if (*numberOfTodos == 0) {
+        std::cout << "There are no todos to delete" << std::endl;
+        pressEnterToContinue(true);
+        return;
+    }
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    std::string inputString;
+    int todoID;
+    bool gotTodoID = false;
+
+    while (!gotTodoID) {
+        listTodos(*todos, *numberOfTodos, true);
+
+        std::cout << "Choose a Todo by ID to delete: ";
+        getline(std::cin, inputString);
+
+        if (checkIfStringIsANumber(inputString)) todoID = stoi(inputString);
+        else todoID = -1;
+
+        if (todoID < 0 || todoID >= *numberOfTodos) {
+            clearFunction();
+            std::cout << "Todo ID must be one of the ID's listed above and a number" << std::endl;
+            pressEnterToContinue(false);
+            clearFunction();
+        }
+        else {
+            gotTodoID = true;
+            std::cin.clear();
+            break;
+        }
+    }
+
+    clearFunction();
+    listSelectedTodoWithID(*todos, todoID);
+
+    deleteTodo(todos, numberOfTodos, todoID);
+    
+    std::cout << "THE TODO ABOVE HAS BEEN DELETED" << std::endl;
+    std::cout << std::endl;
+
+    pressEnterToContinue(false);
 }
