@@ -31,6 +31,7 @@ void listTodosScreen(std::string **todos, int numberOfTodos) {
     pressEnterToContinue(true);
 }
 
+
 void addTodoScreen(std::string ***todos, int *numberOfTodos) {
     std::string name = "";
     std::string desc = "";
@@ -65,6 +66,46 @@ void addTodoScreen(std::string ***todos, int *numberOfTodos) {
     pressEnterToContinue(false);
 }
 
+void editTodoNameScreen(std::string **todos, int todoID) {
+    std::string newName;
+
+    bool attempedToGetName = false;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    do {
+        if ((newName == "" || checkOnlyContainsWhiteSpace(newName)) && attempedToGetName) {
+            clearFunction();
+            std::cout << "Name cannot be empty" << std::endl;
+            pressEnterToContinue(false);
+            clearFunction();
+        }
+        listSelectedTodoWithID(todos, todoID);
+        std::cout << "Todo Name: ";
+        getline(std::cin, newName);
+
+        attempedToGetName = true;
+    } while (newName == "" || checkOnlyContainsWhiteSpace(newName));
+
+    upperCaseString(&newName);
+
+    todos[todoID][0] = newName;
+}
+
+void editTodoDescScreen(std::string **todos, int todoID) {
+    std::string newDesc;
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+    
+    listSelectedTodoWithID(todos, todoID);
+    std::cout << "Todo Description: ";
+    getline(std::cin, newDesc);
+ 
+    if (checkOnlyContainsWhiteSpace(newDesc)) newDesc = "";
+
+    todos[todoID][1] = newDesc;
+}
+
 void editTodoScreen(std::string **todos, int numberOfTodos) {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 
@@ -95,10 +136,49 @@ void editTodoScreen(std::string **todos, int numberOfTodos) {
             break;
         }
     }
-    clearFunction();
 
-    std::cout << "Selected ID is " << todoID << std::endl;
-    listSelectedTodoWithID(todos, todoID);
+    bool editing = true;
+    char editOption;
 
-    pressEnterToContinue(false);
+    while (editing) {
+        clearFunction();
+        listSelectedTodoWithID(todos, todoID);
+
+        std::cout << "Choose edit option" << std::endl;
+        std::cout << "N - Name" << std::endl;
+        std::cout << "D - Description" << std::endl;
+        std::cout << "C - Toggle Completion Status" << std::endl;
+        std::cout << "Q - Quit Todo Editor" << std::endl;
+
+        std::cout << "Enter: ";
+
+        std::cin.get(editOption);
+        lowerCaseCharacter(&editOption);
+
+        switch (editOption) {
+            case ('n') : {
+                clearFunction();
+                editTodoNameScreen(todos, todoID);
+                break;
+            }
+            case ('d') : {
+                clearFunction();
+                editTodoDescScreen(todos, todoID);
+                break;
+            }
+            case ('c') : {
+                clearFunction();
+                if (todos[todoID][2] == "1") todos[todoID][2] = "0";
+                else if (todos[todoID][2] == "0") todos[todoID][2] = "1";
+                break;
+            }
+            case ('q') : {
+                clearFunction();
+                editing = 0;
+            }
+            default: {
+                break;
+            }
+        }
+    }
 }
